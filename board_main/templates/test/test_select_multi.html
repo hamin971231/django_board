@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>환영합니다</title>
+    </head>
+    <body>
+        <!-- 파이선 템플릿 엔진의 문법임.  -->
+        <!-- 테이블로 한번.. ?  -->
+        {% for i in data %}
+        <h1>이름은 {{i.name}} Welcome ! </h1>
+        <h1>email은 {{i.email}} </h1> 
+        <h1>비밀번호는 {{i.password}} </h1> 
+        {% endfor %}
+    </body>
+</html>

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
-
+from .models import Test
 
 # Create your views here.
 
@@ -69,21 +69,93 @@ def test_html_parameter_data2(request, my_id) :
 
 # form 태그를 활용한 post 방식
 # 화면을 rendering(화면 리턴) 해주는 method 필요
-# def test_post_form(request):
-#     return render(request, 'test/test_post_form.html')
+def test_post_form(request):
+    return render(request, 'test/test_post_form.html')
 
 
 # POST방식
 def test_post_handle(request):
+   
    if request.method == 'POST':
-    name = request.POST['user_name']
-    email = request.POST['user_email']
-    password = request.POST['user_password']
-    print(name)
-    print(email)
-    print(password)
+    my_name = request.POST['user_name']
+    my_email = request.POST['user_email']
+    my_password = request.POST['user_password']
+
+    # DB에 INSERT -> save함수 사용 
+    # DB의 테이블과 SYNC가 맞는 TEST클래스에서 객체를 만들어 SAVE
+    t1 = Test()
+    t1.name = my_name
+    t1.email = my_email
+    t1.password = my_password
+    t1.save()
     return redirect('/') # http://localhost:8000/ 으로 이동해라 
    else :
         return render(request, 'test/test_post_form.html')
        
 #post 요청은 요청 후 적절한 상태코드를 줘야 한다.get처럼 html 화면 응답을 줄게 없으니 200 이런거. return HttpResponse('가입을 축하드립니다') 
+
+# select하기 (단건)
+def test_select_one(request, my_id) :
+    # 단건만을 조회할 때는 get함수 사용 
+    t1 = Test.objects.get(id = my_id)
+    
+    return render(request, 'test/test_select_one.html', {'data':t1})
+
+
+# select하기 (all)
+
+def test_select_all(request) :
+    # 모든 데이터 조회 : select * from xxx; all()함수 사용 
+    # 머라고 검색했는지 ? 
+    # 객체형식이기 떄문에 i[name]가 아닌 i.name 으로 표현
+
+    tests = Test.objects.all()
+    # for i in tests:
+    #     print(i.name)
+    return render(request, 'test/test_select_all.html',{'datas':tests})
+
+# where조건으로 다건을 조회할 때는 filter()사용 . 
+# http://localhost:8000/test_select_multi?name=haemin 쿼리파라미터방식
+
+def test_select_multi(request) :
+    my_name=request.GET.get('name')
+    test1=Test.objects.filter(name = my_name)
+    return render(request, 'test/test_select_multi.html',{'data':test1})
+# 조건을 걸려는 칼럼을 변수화 : my_name = ~
+# filter 함수를 이용해서 조회하겠다는 것을 객체화 시킴
+#
+
+# update하기 위해서는 해당 건을 사전에 조회하기 위한 id 값이 필요
+# method는 등록과 동일하게 save() 함수 사용
+# save 함수는 신규객체를 save하면 insert, 기존객체를 save하면 update
+def test_update(request):
+   if request.method == 'POST':
+    my_id = request.POST['user_id'] ## id를 먼저 입력하고 원래 있던 id를 get하겠다는 의미 
+    t1 = Test.objects.get(id = my_id)
+    my_name = request.POST['user_name']
+    my_email = request.POST['user_email']
+    my_password = request.POST['user_password']
+    print(type(my_id))
+    # t1 = Test() # 객체를 만드는 부분이라 x 
+    # 기존에 존재하는 t1을 가져와서 다시 정보를 입력하는 거라서 update임.
+    t1.name = my_name
+    t1.email = my_email
+    t1.password = my_password
+    t1.save()
+    return redirect('/')
+   else :
+        return render(request, 'test/test_update.html')
+
+# delete() 함수 사용해서 삭제함. update와 마찬가지롤 기존객체 조회 후 delete()
+# 조회 후 삭제 
+
+# def test_update(request):
+#    if request.method == 'POST':
+#     my_id = request.POST['user_id']
+#     t1 = Test.objects.get(id = my_id)
+#     t1.delete()
+#     return redirect('/')
+#    else :
+#         return render(request, 'test/test_update.html')
+
+

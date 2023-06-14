@@ -1,0 +1,26 @@
+{% extends 'home.html' %}
+
+{% block content%}
+<h1>회원 목록</h1>
+<a href="/author/new">회원가입</a>
+<table>
+    <thead>
+        <tr>
+            <th>이름</th>
+            <th>email</th>
+            <th>가입일</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for author in authors %}
+        <tr>
+            <td><a href="/author/{{author.id}}">{{author.name}}</a></td>
+            <td>{{author.email}}</td>
+            <td>{{author.created_at}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}
