@@ -10,14 +10,9 @@ def author_list(request) :
 # author 탬플릿으로 찾아가서 author_list.html을 열어라
 # 근데 urls.py에 매핑되어있는 url로 들어가서 author_list.html을 열것임.
 
-def post_list(request) :
-    return render(request,'post/post_list.html')
-
-# post 탬플릿으로 찾아가서 post_list.html을 열어라
-# 근데 urls.py에 매핑되어있는 url로 들어가서 post_list.html을 열것임.
 
 
-## 회원가입 
+## 회원가입  -> 회원가입은 뎅이터를 리턴해줄 필요가 없어서 {'authors':authors}
 def author_new(request) :
     if request.method == 'POST':
         my_name = request.POST['user_name']
@@ -52,5 +47,10 @@ def author_update(request,my_id):
    else :
         return render(request, 'author/author_update.html',{'author':author})
    
+def post_list(request) :
+    return render(request,'post/post_list.html')
+
+# post 탬플릿으로 찾아가서 post_list.html을 열어라
+# 근데 urls.py에 매핑되어있는 url로 들어가서 post_list.html을 열것임.
 
 
