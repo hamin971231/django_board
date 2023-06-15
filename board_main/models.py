@@ -13,7 +13,7 @@ class Test(models.Model):
 
 class Author(models.Model):
     name= models.CharField(max_length=20)
-    email = models.CharField(max_length=50)
+    email = models.CharField(max_length=50,unique=True)
     password = models.CharField(max_length=20)
     # DB설정에 default timestamp가 걸리는 것이 아닌, 장고가 현재시간을 insert 
     created_at = models.DateTimeField(auto_now_add=True) 
