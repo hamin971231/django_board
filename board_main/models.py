@@ -26,6 +26,9 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     # FK를 설정한 변수명에 _id가 붙게된다
     #  on_delete = models.CASCADE 옵션 가능 
-    author = models.ForeignKey(Author, on_delete = models.SET_NULL, null=True)
+    # FK에 db에서 조회할때 나오는 author_id 는 파이선에서는 author객체와 같은것이다. 
+    author = models.ForeignKey(Author, on_delete = models.SET_NULL, null=True, related_name='posts')
+    ## related_name 은 author를 조회할때 post테이블이랑 같이 조회하고 싶은데 그 이름을 'posts'라고 지정하겠다는 말임
+    ## -> author.posts.count() => 근데 이건 리스트 형태임 
     
 ## docker 에서 test
