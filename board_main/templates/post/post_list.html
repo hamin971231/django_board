@@ -1,0 +1,28 @@
+{% extends 'home.html' %}
+
+{% block content%}
+<div class="d-flex justify-content-between align-items-center">
+    <h1>게시글 목록</h1>>
+    <a href="/posts/new" class="btn btn-primary">게시글 작성하기</a>
+</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for post in posts %}
+        <tr>
+            <td><a href="/post/{{post.id}}">{{post.title}}</a></td>
+            <td>{{post.author.name}}</td>
+            <td>{{post.created_at}}</td>
+
+            
+        </tr>
+        {% endfor %} 
+    </tbody>
+</table>
+{% endblock %}
