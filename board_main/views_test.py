@@ -59,7 +59,7 @@ def test_html_parameter_data(request) :
     }
     return render(request, 'test/test.html',{'data':data})
 
-# 사용자가 get방식으로 쿼리파라미터 방식 데이터를 넣어놓을 때
+
 # 2. pathvariable 방식 (현대적인 방식) : localhost:8000/author/10
 def test_html_parameter_data2(request, my_id) :
     print(my_id)
